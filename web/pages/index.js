@@ -1,6 +1,9 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
+import Login from '../components/Login'
+import { useAuth } from '../context/AuthContext'
+import UserDashboard from '../components/UserDashboard'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,6 +15,7 @@ const inter = Inter({ subsets: ['latin'] })
   //  height={37}
   //  priority
   ///>
+
   //<a
   //  className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
   //  target="_blank"
@@ -19,36 +23,16 @@ const inter = Inter({ subsets: ['latin'] })
   //>
 
 export default function Home() {
+  const { currentUser } = useAuth()
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
+    <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
 
-      <div className="z-10 w-full max-w-5xl items-center font-mono text-sm lg:flex">
-        <Link href="/login">
-            <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                Login
-            </p>
-        </Link>
-        <Link href="/register">
-            <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                Register
-            </p>
-        </Link>
+      <div className="w-full max-w-5xl items-center font-mono text-sm lg:flex">
+        {!currentUser && <Login />}
+        {currentUser && <UserDashboard/>}
       </div>
-
-      <div className="mb-32 text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-
-        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </div>
-    
-      </div>
+      
     </main>
   )
 }
